@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Athena - Home</title>
+
+  <!-- CSS  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{% static 'css/materialize.css' %}"  >
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{% static 'css/style.css' %}"  >
+    
+
+
+  <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <nav style="position:fixed; overflow:hidden; top:0; width:100%" class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Athena</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/login/course/">Courses</a></li>
+        <li><a href="/ava/">AVA</a></li>
+        <li><a href="/game/">Games</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+      
+      </ul>
+    </div>
+  </nav>
+  <ul id="nav-mobile" class="side-nav">
+        <li><a href="/login/course/">Courses</a></li>
+        <li><a href="/ava/">AVA</a></li>
+        <li><a href="/game/">Games</a></li>
+      </ul>
+
+    
+</head>
+
+<body>
+
+  <div style="overlay:hidden;" id="main">
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center orange-text">What do you want to do?</h1>
+      <div class="row center">
+        <h5 class="header col s12 black-text">You can ask for a break, a repetition of the last topic, post a question or vote the posted ones.</h5>
+      </div>   
+       {% if not request.session.logged_in %}    
+       <form action="{% url 'login' %}" method="post">
+            {% csrf_token %} 
+            {{ form.as_ul }}
+            <div class="row center">
+                <input type="text" style="width:30%" name="username" autocomplete="on" autofocus maxlength="30" required size="30" placeholder="Username" />
+            </div>
+            <div class="row center">
+                <input type="password" style="width:30%" name="password" size="30" placeholder="Password" required />
+            </div>
+            <div class="row center">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" name="action">Login</button>
+          
+            </div>
+        {% if request.session.wrong_user_passwd %}
+        <p>
+        <font color="red">The username and/or password you entered was/were wrong. Please try again.</font>
+        </p>
+        {% endif %}
+        </form>
+        {% endif %}
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div style="width:50%" class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons" style="font-size:50px;">flash_on</i></h2>
+            <h5 class="center black-text">Ask for a pause</h5>
+            <div class="center">
+              <a href="#" id="download-button" style="position:static;" class="btn-large waves-effect waves-light orange">Break</a>
+            </div>
+            <p class="light">Click here if you need a break during the session of this course.</p>
+          </div>
+        </div>
+
+        <div style="width:50%" class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons" style="font-size:50px;">face</i></h2>
+            <h5 class="center black-text">Ask for a repetition</h5>
+            <div class="center">
+              <a href="#" id="download-button" style="position:static;" class="btn-large waves-effect waves-light orange">Repeat</a>
+            </div>
+            <p class="light">Click here if you are not following a topic or explanation and so you want your lecturer to repeat it.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row s12 m4">
+        <div class="icon-block">
+          <h2 class="center light-blue-text"><i class="material-icons" style="font-size:50px;">help</i></h2>
+          <h5 class="center black-text">Questions</h5>
+
+          <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
+        </div>
+      </div>
+    </div>
+    <br><br>
+  </div>
+</div>
+  <footer class="page-footer orange">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">University of Osnabrück - Institute of Cognitive Science</h5>
+          <p class="grey-text text-lighten-4">This site is hosted on the Rechenzentrum of the University, please contact an admin or developer if you encounter any bugs or mistakes.</p>
+
+
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Settings</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="#">Coxis UOS</a>
+      </div>
+    </div>
+  </footer>
+
+
+  
+
+  </body>
+</html>
+
+
+

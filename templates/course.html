@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    
+    {% load i18n %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Athena - Home</title>
+
+  <!-- CSS  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{% static 'css/materialize.css' %}"  >
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{% static 'css/style.css' %}"  >
+    <link rel="stylesheet"  type="text/css" href="{% static 'css/dropdown_c.css' %}"  >
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+
+  <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <nav style="position:fixed; overflow:hidden; top:0; width:100%" class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Athena</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/login/course/">Courses</a></li>
+        <li><a href="/ava/">AVA</a></li>
+        <li><a href="/game/">Games</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+  <ul id="nav-mobile" class="side-nav">
+        <li><a href="/login/course">Courses</a></li>
+        <li><a href="/ava/">AVA</a></li>
+        <li><a href="/game/">Games</a></li>
+      </ul>
+
+
+</head>
+
+<body>
+  
+
+  <div style="overlay:hidden;" id="main">
+  <div class="section no-pad-bot" id="index-banner">
+  <div class="container">
+  
+    {% if request.session.logged_in %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <h3>Hi, {{ request.session.name }}. Here's your login information:</h3>
+    <table>
+        <tr>
+            <td>
+                Full name:
+            </td>
+            <td>
+                {{ request.session.full_name }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Matriculation Nr.:
+            </td>
+            <td>
+                {{ request.session.matr_num }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Email:
+            </td>
+            <td>
+                {{ request.session.email }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form action="{% url 'login' %}" method="post">
+                    {% csrf_token %} {{ form.as_ul }}
+                    <input name="logout" type="submit" value="Logout" />
+                </form>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table>
+        <form id='subject' action="{% url 'subject' %}" method="post">
+                    {% csrf_token %} Select a course:
+                    <select name="subject" id="course" class="form-control" autofocus onChange="this.form.submit();" style="width:50%">
+                            <option value="" selected="selected" >Please select the subject.</option>
+                             {% for id, values in request.session.courses.items %}
+                             <option title='{{ values.1 }}' value='{{ id }}' {% if id == curr_subject %} selected="selected"{% endif%}>
+                             
+                                 {{ values.1|slice:':50' }}
+                                 {% if values.1|length > 50 %}
+                                     ...
+                                 {% endif %}
+                             </option>
+                             {% endfor %}
+                    </select>
+                 </form>
+    </div>   
+    </table>
+
+
+    
+    <br>
+    <br>
+    <table>
+        <tr>
+            <td align="right">
+                <form  action="{% url 'break' %}" method="post">
+                    {% csrf_token %} {{ form.as_ul }} {% if req_break %}
+                    <input name="BreakReq" type="submit" value="Break request submitted" disabled/> {% else %}
+                    <input name="BreakCom" type="submit" value="I want a break" /> {% endif %}
+                </form>
+            </td>
+            <td align="right">
+                Total requested:
+            </td>
+            <td>
+                {{ nbreaks }}
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <form action="{% url 'repetition' %}" method="post">
+                    {% csrf_token %} {{ form.as_ul }} {% if ask_repeat %}
+                    <input name="RepReq" type="submit" value="Repetition request submitted" disabled/> {% else %}
+                    <input name="RepCom" type="submit" value="I want a repetition" /> {% endif %}
+                </form>
+            </td>
+            <td align="right">
+                Total requested:
+            </td>
+            <td>
+                {{ nrepetitions }}
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table>
+        <tr>
+            <form action="{% url 'question' %}" method="post">
+                {% csrf_token %} {{ form.as_ul }}
+                <td align="right">
+                    Question:
+                </td>
+                <td>
+                    <input type="text" name="question" required />
+                </td>
+                <td>
+                    <input type="submit" value="Post" />
+                </td>
+            </form>
+        </tr>
+    </table>
+    <br>
+    <h3>Posted until {% now "d/m/Y" %} @ {% now "H:i" %}</h3>
+    <ul style="list-style-type:none">
+        <table cellspacing="10" style="width:auto; text-align:left">
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Time
+                </th>
+                <th>
+                    Question
+                </th>
+                <th>
+                    Vote
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+            {% for posted in questions %}
+            <li>
+                <form action="{% url 'vote' %}" method="post">
+                    {% csrf_token %} {{ form.as_ul }}
+                    <tr>
+                        <td>
+                            {{ posted.time|date:'d/m/Y' }}
+                        </td>
+                        <td>
+                            {{ posted.time|date:'H:i' }}
+                        </td>
+                        <td>
+                            <!-- {{ forloop.counter }}.  -->
+                            {{ posted.question }}
+                        </td>
+                        <td>
+                            <input type="hidden" name="id" value="{{ posted.id }}" /> {% for qid, voted in qlist.items %} 
+                            {% if qid == posted.id %} {% if not voted %}
+                            <input type="submit" value="+1" /> {% else %}
+                            <input type="submit" value="Voted" disabled/> {% endif %} {% endif %} {% endfor %}
+                        </td>
+                        <td style="text-align:right">
+                            {% for qid, votes in cvotes.items %} {% if qid == posted.id %} {{ votes }} {% endif %} {% endfor %}
+                        </td>
+                    </tr>
+                </form>
+            </li>
+            {% endfor %}
+        </table>
+    </ul>
+    {% endif %}
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</body>
+</html>
+
+
+
+
+

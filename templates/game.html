@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Athena - Home</title>
+
+  <!-- CSS  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{% static 'css/materialize.css' %}"  >
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="{% static 'css/style.css' %}"  >
+
+    <link rel="shortcut icon" href="{% static 'TemplateData/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'TemplateData/style.css' %}">
+    
+
+
+  <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.js' %}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <nav style="position:fixed; overflow:hidden; top:0; width:100%" class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Athena</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/login/course/">Courses</a></li>
+        <li><a href="/ava/">AVA</a></li>
+        <li><a href="/game/">Games</a></li>
+      </ul>
+
+      
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+  <ul id="nav-mobile" class="side-nav">
+        <li><a href="/login/course/">Courses</a></li>
+        <li><a href="/ava/">AVA</a></li>
+        <li><a href="/game/">Games</a></li>
+      </ul>
+
+
+
+    
+</head>
+
+<body>
+  
+
+  <div style="overlay:hidden;" id="main">
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+     <div class="row">
+     <div class="webgl-content">
+      <div id="gameContainer" style="width: 760px; height: 400px"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+        <div class="title">Brain</div>
+      </div>
+      </div>
+     </div>
+     </div>
+
+    <script src="{% static 'TemplateData/UnityProgress.js' %}"></script>  
+    <script src="{% static 'Build/UnityLoader.js' %}"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "{% static 'Build/webgl.json' %}", {onProgress: UnityProgress});
+    </script>
+    <script src="{% static 'mezzanine/js/magnific-popup.js' %}"></script>
+
+
+
+
+
+    </div>
+  </div>
+  </div>
+
+</body>
+</html>
+
+
+
+
+
